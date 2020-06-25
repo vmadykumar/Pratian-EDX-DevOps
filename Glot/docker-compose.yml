@@ -1,0 +1,52 @@
+version: '3'
+services:
+        couchdb:
+                image: couchdb
+                restart: always
+                ports: 
+                     - "5984:5984"
+                environment:
+                     - COUCHDB_USER=admin
+                     - COUCHDB_PASSWORD=password
+                network_mode: "bridge"
+        postgressql:
+                image: postgres
+                restart: always
+                ports:
+                     - "5432:5432"
+                environment:
+                     - POSTGRES_USER=glot
+                     - POSTGRES_PASSWORD=password@123
+                     - POSTGRES_DB=glot
+                network_mode: "bridge"
+        glot-run:
+                image: ssoor/glot-run
+                ports:
+                     - "8091:8091"
+                network_mode: "bridge"
+                restart: always 
+                depends_on:
+                     - postgressql
+                env_file:
+                     - env-glot-run
+        glot-snippet:
+                image: javierprovecho/glot-snippets
+                ports:
+                     - "8090:8090"
+                network_mode: "bridge"
+                restart: always
+                depends_on:
+                     - couchdb
+                env_file:
+                     - env-glot-snippet
+        glot-www:
+                image: javierprovecho/glot-www
+                restart: always
+                ports:
+                     - "3000:3000"
+                network_mode: "bridge"
+                env_file:
+                     - env-glot-www
+                depends_on:
+                     - glot-run
+                     - glot-snippet
