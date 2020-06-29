@@ -1,0 +1,319 @@
+ 1  clear
+    2  sudo apt-get update
+    3  clear
+    4  sudo groupadd docker
+    5  sudo usermod -ag docker $USER
+    6  sudo usermod -aG docker $USER
+    7  newgrp docker
+    8  docker run hello-world
+    9  clear
+   10  cd /etc/systemd/system
+   11  ls
+   12  mkdir docker.service.d
+   13  sudo mkdir docker.service.d
+   14  clear
+   15  cd docker.service.d/
+   16  ls
+   17  touch http-proxy.conf
+   18  sudo touch http-proxy.conf
+   19  ls
+   20  clear
+   21  docker run -p 8091:8091 --env-file=env-glot-run -d javierprovecho/glot-run
+   22  clear
+   23  cd
+   24  cd glot/
+   25  touch env-glot-run
+   26  vi env-glot-run
+   27  cd /etc/systemd/system/docker.service.d
+   28  sudo vi http-proxy.conf
+   29  sudo systemctl daemon-reload
+   30  sudo systemctl restart docker
+   31  sudo systemctl show --property=Environment docker
+   32  cd
+   33  cd glot/
+   34  touch env-glot-www
+   35  vi env-glot-www
+   36  touch env-glot-snippet
+   37  vi env-glot-snippet
+   38  clear
+   39  docker ps
+   40  docker ps -a
+   41  docker stop 291bbc1 1efdd6bde
+   42  docker rm 291bbc1 1efdd6bde
+   43  docker ps -a
+   44  docker start 82ae4 36e04b9
+   45  docker ps
+   46  clear
+   47  docker ps
+   48  docker run -p 8091:8091 --env-file=env-glot-run -d javierprovecho/glot-run
+   49  docker pull javierprovecho/glot-run
+   50  cd /etc/systemd/system/docker.service.d
+   51  sudo rm http-proxy.conf
+   52  ls
+   53  sudo systemctl daemon-reload
+   54  sudo systemctl restart docker
+   55  sudo systemctl show --property=Environment docker
+   56  docker pull javierprovecho/glot-run
+   57  docker pull javierprovecho/glot-test
+   58  docker pull javierprovecho/glot-www
+   59  docker pull mienaikage/glot-test
+   60  docker pull javierprovecho/glot-snippets
+   61  cd
+   62  cd glot/
+   63  docker run -p 8091:8091 --env-file=env-glot-run -d javierprovecho/glot-run
+   64  docker ps
+   65  clear
+   66  docker ps
+   67  docker ps -a
+   68  docker start 82ae47b 36e04b9
+   69  docker ps
+   70  clear
+   71  docker ps
+   72  docker run -p 8090:8090 --env-file=env-glot-snippet -d javierprovecho/glot-snippets
+   73  docker ps
+   74  clear
+   75  docker ps
+   76  clear
+   77  docker ps
+   78  docker run -p 3000:3000 --env-file=env-glot-www -d javierprovecho/glot-www
+   79  docker ps
+   80  clear
+   81  docker ps
+   82  docker stop f1e7195b2
+   83  docker ps
+   84  clear
+   85  docker ps
+   86  docker start f1e7195b2
+   87  docker stop 99440ba3
+   88  docker ps
+   89  docker start 99440ba3
+   90  docker ps
+   91  clear
+   92  docker ps
+   93  docker container logs f1e7195b
+   94  cd
+   95  cd /home/app/log
+   96  docker ps
+   97  docker images
+   98  docker ps
+   99  clear
+  100  docker images
+  101  clear
+  102  docker images
+  103  clear
+  104  docker ps
+  105  docker run -p 9092:8092 -d glot/typescript:latest
+  106  docker ps
+  107  docker container logs a33ea6d9398c05e6
+  108  clear
+  109  docker ps
+  110  cd /etc/systemd/system/docker.service.d
+  111  touch http-proxy.conf
+  112  sudo touch http-proxy.conf
+  113  clear
+  114  sudo vi http-proxy.conf
+  115  sudo systemctl daemon-reload
+  116  sudo systemctl restart docker
+  117  clear
+  118  sudo vi http-proxy.conf
+  119  sudo systemctl daemon-reload
+  120  sudo systemctl restart docker
+  121  sudo rm http-proxy.conf
+  122  sudo systemctl daemon-reload
+  123  sudo systemctl restart docker
+  124  clear
+  125  curl --request GET      --header 'Authorization: Token some-secret'      --url 'https://run.glot.io/admin/languages'
+  126  curl --request GET      --header 'Authorization: Token password@123 \
+  127       --url 'http://172.30.11.208/admin/languages'
+  128  curl --request GET     --header 'Authorization: Token password@123
+  129  curl --request GET      --header 'Authorization: Token password@123’ \
+  130       --url 'http://172.30.11.208/admin/languages'
+  131  curl --request GET     --header 'Authorization: Token password@123'   --url 'http://172.30.11.208/admin/languages''
+  132  curl --request GET     --header 'Authorization: Token password@123'   --url 'http://172.30.11.208/admin/languages'
+  133  curl --request GET     --header 'Authorization: Token password@123'   --url 'http://172.30.11.208:8090/admin/languages'
+  134  docker ps
+  135  docker inspect javierprovecho/glot-run
+  136  docker inspect --format '{{ index (index .Config.Env) 0 }}' c4744438c24f
+  137  docker inspect c4744438c24f
+  138  docker inspect 9907a5b514b9
+  139  docker ps
+  140  docker container logs -h
+  141  docker container logs -f 9907a5b514b9
+  142  docker ps
+  143  docker container logs -f 743
+  144  exit
+  145  docker ps
+  146  docker exec -it 9b733d0 /bin/sh
+  147  docker exec -it 9b733d0 /glot-run/_build/default/lib/cowboy
+  148  docker exec -it 9b733d0 bash
+  149  docker exec -it 9b733d0 /bash
+  150  clear
+  151  cd glot/
+  152  ls
+  153  cd glot-code-runner/
+  154  ls
+  155  curl -O https://storage.googleapis.com/golang/go1.12.9.linux-amd64.tar.gz
+  156  sha256sum go1.12.9.linux-amd64.tar.gz
+  157  tar -xvf go1.12.9.linux-amd64.tar.gz
+  158  clear
+  159  ls
+  160  cd glot/
+  161  cd glot-code-runner/
+  162  ls
+  163  tar -xvf go1.12.9.linux-amd64.tar.gz
+  164  ls
+  165  sudo chown -R root:root ./go
+  166  sudo mv go /usr/local
+  167  ls
+  168  cd ~/.profile
+  169  vi ~/.profile
+  170  source ~/.profile
+  171  ./build_linux.sh
+  172  export PATH=$PATH:/usr/local/go/bin
+  173  ./build_linux.sh
+  174  cd
+  175  cd /home/pratian/go/src/
+  176  cd  /usr/local/go/src/
+  177  ls
+  178  mkdir github.com
+  179  sudo mkdir github.com
+  180  cd github.com/
+  181  git clone https://github.com/prasmussen/glot-code-runner.git
+  182  sudo git clone https://github.com/prasmussen/glot-code-runner.git
+  183  cd
+  184  cd /glot/glot-code-runner
+  185  cd /g
+  186  cd glot/glot-code-runner/
+  187  ./build_linux.sh
+  188  export PATH=$PATH:/usr/local/go/bin
+  189  ./build_linux.sh
+  190  go version
+  191  cd
+  192  cd /usr/local/go/src/github.com/
+  193  ls
+  194  cd glot-code-runner/
+  195  ls
+  196  cd ..
+  197  sudo mkdir prasmussen
+  198  cd prasmussen/
+  199  sudo git clone https://github.com/prasmussen/glot-code-runner.git
+  200  cd ..
+  201  sudo rm -rf glot-code-runner/
+  202  ls
+  203  cd
+  204  cd glot/glot-code-runner/
+  205  ls
+  206  ./build_linux.sh
+  207  ls
+  208  ./runner
+  209  clear
+  210  curl -4 -sv -H "Authorization: Token d11088bc-a29d-4d49-a633-b1b1ae807064" -H 'Content-type: application/json' -X POST -d '{"files": [{"name": "main.sh", "content": "echo \"hello\"\n"}]}' localhost:8091/languages/bash/latest
+  211  docker ps
+  212  docker container logs 9b733d004af
+  213  clear
+  214  docker container logs 9b733d004af
+  215  clear
+  216  docker ps
+  217  docker container logs d19980a
+  218  clear
+  219  htop
+  220  cd /sbin/
+  221  ls
+  222  cd multipathd
+  223  vi multipathd
+  224  clear
+  225  curl -4 -sv -H "Authorization: Token d11088bc-a29d-4d49-a633-b1b1ae807064" -H 'Content-type: application/json' -X POST -d '{"files": [{"name": "main.sh", "content": "echo \"hello\"\n"}]}' localhost:8091/languages/bash/latest
+  226  clear
+  227  curl -4 -sv -H "Authorization: Token d11088bc-a29d-4d49-a633-b1b1ae807064" -H 'Content-type: application/json' -X POST -d '{"files": [{"name": "main.sh", "content": "echo \"hello\"\n"}]}' http://172.30.11.208:8091/languages/bash/latest
+  228  docker ps
+  229  docker inspect 54f6
+  230  docker container logs -f  54f6
+  231  docker images
+  232  docker ps
+  233  docker ps -a
+  234  clear
+  235  docker ps -a
+  236  docker container logs -f 54f6
+  237  docker ps -a
+  238  docker ps
+  239  dcoker start 56abe5425de6 202497324b1a 18a1c356257a 96d0fd2dd67d 25e6bc4a5323
+  240  sudo -i
+  241  clear
+  242  ls
+  243  docker ps
+  244  docker.io login
+  245  docker login
+  246  docker images
+  247  docker image tag javierprovecho/glot-www pratiandevops/glot-www
+  248  docker images
+  249  docker image tag javierprovecho/glot-snippets pratiandevops/glot-snippets
+  250  docker image tag ssoor/glot-run pratiandevops/glot-run
+  251  docker image tag glot/typescript pratiandevops/typescript
+  252  docker image tag glot/swift pratiandevops/swift
+  253  docker image tag glot/scala pratiandevops/scala
+  254  docker image tag glot/rust pratiandevops/rust
+  255  docker image tag glot/ruby pratiandevops/ruby
+  256  docker image tag glot/python pratiandevops/python
+  257  docker image tag glot/php pratiandevops/php
+  258  docker image tag glot/perl6 pratiandevops/perl6
+  259  docker image tag glot/perl pratiandevops/perl
+  260  docker image tag glot/ocaml pratiandevops/ocaml
+  261  docker image tag glot/nim pratiandevops/nim
+  262  docker image tag glot/mono pratiandevops/mono
+  263  docker image tag glot/mercury pratiandevops/mercury
+  264  docker image tag glot/lua pratiandevops/lua
+  265  docker image tag glot/kotlin pratiandevops/kotlin
+  266  docker image tag glot/julia pratiandevops/julia
+  267  docker image tag glot/javascript pratiandevops/javascript
+  268  docker image tag glot/java pratiandevops/java
+  269  docker image tag glot/haskell pratiandevops/haskell
+  270  docker image tag glot/groovy pratiandevops/groovy
+  271  docker image tag glot/golang pratiandevops/golang
+  272  docker image tag glot/erlang pratiandevops/erlang
+  273  docker image tag glot/dlang pratiandevops/dlang
+  274  docker image tag glot/elixir pratiandevops/elixir
+  275  docker image tag glot/crystal pratiandevops/crystal
+  276  docker image tag glot/coffeescript pratiandevops/coffeescript
+  277  docker image tag glot/cobol pratiandevops/cobol
+  278  docker image tag glot/clojure pratiandevops/clojure
+  279  docker image tag glot/clang pratiandevops/clang
+  280  docker image tag glot/ats pratiandevops/ats
+  281  docker image tag glot/assembly pratiandevops/assembly
+  282  docker image tag glot/bash pratiandevops/bash
+  283  docker push pratiandevops/bash
+  284  docker push pratiandevops/assembly
+  285  docker push pratiandevops/ats
+  286  docker push pratiandevops/clang
+  287  docker push pratiandevops/clojure
+  288  docker push pratiandevops/cobol
+  289  docker push pratiandevops/coffeescript
+  290  docker push pratiandevops/crystal
+  291  docker push pratiandevops/elixir
+  292  docker push pratiandevops/dlang
+  293  docker push pratiandevops/erlang
+  294  docker push pratiandevops/golang
+  295  docker push pratiandevops/groovy
+  296  docker push pratiandevops/haskell
+  297  docker push pratiandevops/java
+  298  docker push pratiandevops/javascript
+  299  docker push pratiandevops/julia
+  300  docker push pratiandevops/kotlin
+  301  docker push pratiandevops/lua
+  302  docker push pratiandevops/mercury
+  303  docker push pratiandevops/mono
+  304  docker push pratiandevops/nim
+  305  docker push pratiandevops/ocaml
+  306  docker push pratiandevops/perl
+  307  docker push pratiandevops/perl6
+  308  docker push pratiandevops/php
+  309  docker push pratiandevops/python
+  310  docker push pratiandevops/ruby
+  311  docker push pratiandevops/rust
+  312  docker push pratiandevops/scala
+  313  docker push pratiandevops/swift
+  314  docker push pratiandevops/typescript
+  315  docker pushpratiandevops/glot-run
+  316  docker push pratiandevops/glot-snippets
+  317  docker push pratiandevops/glot-www
+  318  htop
+  319  history

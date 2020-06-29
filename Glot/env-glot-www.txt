@@ -1,0 +1,24 @@
+APPROOT=http://192.168.0.225:3000
+PORT=3000
+PGHOST=192.168.0.225
+PGPORT=5432
+PGUSER=glot
+PGPASS=password@123
+PGDATABASE=glot
+SNIPPETS_API_BASE_URL=http://192.168.0.225:8090/
+SNIPPETS_API_ADMIN_TOKEN=password@123
+RUN_API_BASE_URL=http://192.168.43.225:8091/
+RUN_API_ADMIN_TOKEN=password@123
+RUN_API_ANONYMOUS_TOKEN=password@12345
+DISABLE_ADS=true
+
+#below setup not req in start but wil be req on later use case 
+MAILGUN_DOMAIN=glot.io
+MAILGUN_API_KEY=key-1234567890
+EMAIL_FROM_ADDRESS=vikash.bcet@gmail.com
+ANALYTICS_ID=(give here google analytics id (optional) eg: secret-id)
+
+#Note: Values will chnage as Env Change(eg: IP of server)
+
+
+

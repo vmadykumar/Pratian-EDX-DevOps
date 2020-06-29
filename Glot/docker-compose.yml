@@ -37,8 +37,16 @@ services:
                 restart: always
                 depends_on:
                      - couchdb
-                env_file:
-                     - env-glot-snippet
+                environment:
+                     - API_ENVIRONMENT=production
+                     - API_HTTP_LISTEN_IP=0.0.0.0
+                     - API_HTTP_LISTEN_PORT=8090
+                     - LOG_PATH=/home/app/log/
+                     - BASE_URL=http://13.126.173.142:8090
+                     - ADMIN_TOKEN=password@123
+                     - DB_URL=http://13.126.173.142:5984
+                     - DB_USER=admin
+                     - DB_PASSWORD=password
         glot-www:
                 image: javierprovecho/glot-www
                 restart: always
