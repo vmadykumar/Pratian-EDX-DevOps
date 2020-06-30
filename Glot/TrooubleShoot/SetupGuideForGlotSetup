@@ -1,0 +1,190 @@
+#Environment Preperation
+> Ubuntu version 20.  focal (req)
+> first install docker go to this below link for above ubuntu version
+https://docs.docker.com/engine/install/ubuntu/
+>do the settings req to run docker as non root user 
+>install docker compose go to belwo link
+https://docs.docker.com/compose/install/
+
+# Docker Daemon Settings
+> need to go to this location first /etc/systemd/system/
+> then needs to create folder with name "docker.service.d"
+> then need to create file with name "override.conf"
+#Content for override.conf (needs to be created for docker daemon setup)
+[Service]
+ExecStart=
+ExecStart=/usr/bin/dockerd
+
+> then go to /etc/docker
+> create daemon.conf file 
+> paste the below content there (but last tcp address will change for each instance)
+#content is 
+{
+  "ip-forward": false,
+  "iptables": false,
+  "ipv6": false,
+  "ip-masq": false,
+  "hosts": ["fd://", "tcp://127.0.0.1:2375"]
+}
+
+> then restart docker service with below commands 
+sudo systemctl daemon-reload
+sudo systemctl restart docker
+
+> Install haproxy to do this run below command
+sudo apt-get install haproxy
+>Configure haproxy for this go to /etc/haproxy/haproxy.cfg file and pase the below content at the end of the file
+#content is below
+frontend docker-frontend
+        bind 0.0.0.0:80
+        acl network_allowed src 10.20.30.40
+        tcp-request connection reject if !network_allowed
+        default_backend docker-backend
+
+backend docker-backend
+        balance leastconn
+        server docker localhost:2375
+		
+> Restart haproxy with below command
+systemctl restart haproxy.service
+
+# Glot containers Settings 
+> we needs to env files which will be used to run the glot continer 
+> first we will create this file with name "env-glot-run"
+#content of this file will be below 
+API_ENVIRONMENT=production
+API_HTTP_LISTEN_IP=0.0.0.0
+API_HTTP_LISTEN_PORT=8091
+DATA_PATH=/home/app/data/
+LOG_PATH=/home/app/log/
+BASE_URL=http://172.30.11.208:8091
+ADMIN_TOKEN=password@123
+DOCKER_API_URL=http://172.30.11.208:2375
+DOCKER_RUN_TIMEOUT=60
+MAX_OUTPUT_SIZE=100000
+
+> Need to create this file with name "env-glot-snippet"
+#content of this file will be below
+API_ENVIRONMENT=production
+API_HTTP_LISTEN_IP=0.0.0.0
+API_HTTP_LISTEN_PORT=8090
+LOG_PATH=/home/app/log/
+BASE_URL=http://172.30.11.208:8090
+ADMIN_TOKEN=password@123
+DB_URL=http://172.30.11.208:5984
+DB_USER=admin
+DB_PASSWORD=password
+
+> Need to create this file with name "env-glot-www"
+#content of this file will be below
+APPROOT=http://172.30.11.208:3000
+PORT=3000
+PGHOST=172.30.11.208
+PGPORT=5432
+PGUSER=glot
+PGPASS=password@123
+PGDATABASE=glot
+SNIPPETS_API_BASE_URL=http://172.30.11.208:8090/
+SNIPPETS_API_ADMIN_TOKEN=password@123
+RUN_API_BASE_URL=http://172.30.11.208:8091/
+RUN_API_ADMIN_TOKEN=password@123
+RUN_API_ANONYMOUS_TOKEN=password@12345
+DISABLE_ADS=true
+
+Note: values will change for each of the above env files mentioned as per the different setup
+
+> Now we will need to clone the project "glot-code-runner" and "glot-containers"
+> we need to build both the codes
+> first we will build the "glot-containers"
+>this will download all the glot language images which wil be utilized by "glot-run"
+> Now we will build the "glot-code-runner" code but for this we need to install the Go-Lang on the instance 
+> to install go lang run below commands
+curl -O https://storage.googleapis.com/golang/go1.12.9.linux-amd64.tar.gz
+sha256sum go1.12.9.linux-amd64.tar.gz
+tar -xvf go1.12.9.linux-amd64.tar.gz
+> after this run below commands
+sudo chown -R root:root ./go
+sudo mv go /usr/local
+> after that go to this file using below command 
+vi ~/.profile
+> then paste the below content at the end of the file if not available
+export GOPATH=$HOME/go
+export PATH=$PATH:/usr/local/go/bin:$GOPATH/bin
+> then go to this location "cd  /usr/local/go/src/"
+> then make dir over there with this command "sudo mkdir github.com"
+> then go inside this directory and make new directory with this command "sudo mkdir prasmussen"
+> then clone the code repository by going inside this folder(prasmussen) using below comamnd
+sudo git clone https://github.com/prasmussen/glot-code-runner.git
+> then come out of the directory completely and go back to the insitial folder where we kept our cloned code(glot-code-runner) initially 
+> get insdie the repository and build the code using "./build_linux.sh" if it still says go command not found error then run below command in the same directory where .sh file is kept
+export PATH=$PATH:/usr/local/go/bin
+> then run the code using "./runner" which will be generated after we build the code 
+
+####Issues 
+after installing docker-compose 
+while running the container i stared getting this error 
+ubuntu@ip-172-31-27-31:~$ docker run -p 8090:8090 -e API_ENVIRONMENT=production -e API_HTTP_LISTEN_IP=0.0.0.0 -e API_HTTP_LISTEN_PORT=8090 -e LOG_PATH=/home/app/log/ -e BASE_URL=http://13.126.173.142:8090 -e ADMIN_TOKEN=password@123 -e DB_URL=http://13.126.173.142:5984 -e DB_USER=admin -e DB_PASSWORD=password -d javierprovecho/glot-snippets
+WARNING: IPv4 forwarding is disabled. Networking will not work.
+3a52d6beef538a8cf8a647101e387c435c4aa270cac143702e18b879c64b7381
+
+Reolution can be found here : https://success.docker.com/article/ipv4-forwarding
+
+Note: i got this error as i was not following the right way to setup the glot but if you follow the above steps correctly it will not give this above error.
+
+>also for Warning Message like below if you are getting 
+WARNING: bridge-nf-call-iptables is disabled
+WARNING: bridge-nf-call-ip6tables is disabled
+>Resolution can be found here 
+https://docs.oracle.com/en/operating-systems/oracle-linux/docker/issue-iptables-warning.html 
+
+( NOTE: very Important for AWS Setup )
+1. spesific for the AWS env setup both the above issue should be resolved but in inhouse server glot was working without resloving the issue i don't know why
+2. For AWS Environment setup of glot while doing docker daemon settings the when i was adding ElasticIP in darmon.jason file it's was throwing error so also when 
+i was putting normal docker api that we can get when we fire command "docker info"  and this will give output like below 
+WARNING: API is accessible on http://127.0.0.1:2375 without encryption.
+         Access to the remote API is equivalent to root access on the host. Refer
+         to the 'Docker daemon attack surface' section in the documentation for
+         more information: https://docs.docker.com/engine/security/security/#docker-daemon-attack-surface
+but even when i was putting "http://127.0.0.1:2375" this address in env-glot-run file as DOCKER_API_URL it was not giving the result of code when running the command 
+so the right IP will be like belwo when we fire "docker info"
+WARNING: API is accessible on http://172.30.11.208:2375 without encryption.
+         Access to the remote API is equivalent to root access on the host. Refer
+         to the 'Docker daemon attack surface' section in the documentation for
+         more information: https://docs.docker.com/engine/security/security/#docker-daemon-attack-surface
+And in oder to get this we have to add the "tcp://172.30.11.208:2375" in our "daemon.json" file while setting up. Settings looks like below eg:
+{
+ "ip-forward": false,
+ "iptables": false,
+ "ipv6": false,
+ "ip-masq": false,
+ "hosts": ["fd://", "unix:///var/run/docker.sock", "tcp://127.0.0.1:2375", "tcp://172.30.11.208"]
+}
+and to get this(172.30.11.208) address in AWS EC2 instance. when we login into the instance it shows details like below there only we need to pick value of this "IPv4 address for ens5"
+#####details we get when we login into AWS Instance ########
+login as: ubuntu
+Authenticating with public key "imported-openssh-key"
+Welcome to Ubuntu 20.04 LTS (GNU/Linux 5.4.0-1015-aws x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+
+  System information as of Tue Jun 30 05:12:18 UTC 2020
+
+  System load:  0.0                Processes:                133
+  Usage of /:   47.4% of 58.10GB   Users logged in:          1
+  Memory usage: 13%                IPv4 address for docker0: 172.17.0.1
+  Swap usage:   0%                 IPv4 address for ens5:    172.31.29.41
+
+ * "If you've been waiting for the perfect Kubernetes dev solution for
+   macOS, the wait is over. Learn how to install Microk8s on macOS."
+
+   https://www.techrepublic.com/article/how-to-install-microk8s-on-macos/
+
+7 updates can be installed immediately.
+7 of these updates are security updates.
+To see these additional updates run: apt list --upgradable
+
+
+*** System restart required ***
+Last login: Tue Jun 30 05:04:08 2020 from 106.207.0.200

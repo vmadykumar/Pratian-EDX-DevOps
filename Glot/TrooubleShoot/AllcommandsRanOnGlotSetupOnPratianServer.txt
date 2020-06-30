@@ -317,3 +317,20 @@
   317  docker push pratiandevops/glot-www
   318  htop
   319  history
+  
+  #network related errors
+  cd /etc/
+  214  ls
+  215  vi sysctl.conf
+  216  sudo vi sysctl.conf
+  217  systemctl restart network
+  218  sudo systemctl restart network
+  219  sudo sysctl net.ipv4.ip_forward
+  220  sudo vi sysctl.conf
+  221  sudo sysctl net.ipv4.ip_forward
+  222  sudo systemctl restart network
+  223  sudo sysctl restart network
+  224  sudo sysctl -p
+  225  sudo sysctl net.ipv4.ip_forward
+  226  clear
+

@@ -1,0 +1,28 @@
+    1  docker ps
+    2  sudo curl -L "https://github.com/docker/compose/releases/download/1.26.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+    3  sudo chmod +x /usr/local/bin/docker-compose
+    4  docker-compose --version
+    5  docker --version
+    6  cd /etc/systemd/system/
+    7  sudo mkdir docker.service.d
+    8  cd docker.service.d/
+    9  sudo touch override.conf
+   10  sudo vi override.conf
+   11  history
+   12  cd
+   13  cd /etc/docker/
+   14  ls
+   15  sudo touch daemon.json
+   16  sudo vi daemon.json
+   17  sudo systemctl daemon-reload
+   18  sudo systemctl restart docker.service
+   19  cd
+   20  ls
+   21  docker run -p 5984:5984 -e COUCHDB_USER=admin -e COUCHDB_PASSWORD=password -d couchdb
+   22  docker run -p 8090:8090 --env-file=env-glot-snippet -d javierprovecho/glot-snippets
+   23  docker ps
+   24  docker stop ee15f 38004
+   25  docker rm ee15f 38004
+   26  docker-compose up -d
+   27  docker ps
+   28  history

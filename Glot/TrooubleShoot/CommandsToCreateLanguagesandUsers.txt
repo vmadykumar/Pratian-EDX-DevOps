@@ -1,0 +1,109 @@
+curl --request POST \
+     --header 'Content-type: application/json' \
+     --data '{"language": "python", "title": "test", "public": true, "files": [{"name": "main.py", "content": "print(42)"}]}' \
+     --url 'http://15.206.13.234:8090/snippets'
+	 
+	 
+	 
+	 curl --request POST \
+     --header 'Authorization: Token password@123' \
+     --header 'Content-type: application/json' \
+     --data '{"token": "d11088bc-a29d-4d49-a633-b1b1ae807064"}' \
+     --url 'http://15.206.13.234:8091/admin/users'
+	 
+	 {"created":"2020-06-18T03:50:49Z","id":"dfa6b00e-f9f6-4186-aff0-1f88e84a5fd7","modified":"2020-06-18T03:50:49Z","token":"d11088bc-a29d-4d49-a633-b1b1ae807064","url":"http://172.30.11.208:8091/admin/users/dfa6b00e-f9f6-4186-aff0-1f88e84a5fd7"}
+	 
+	 curl --request POST \
+     --header 'Authorization: Token d11088bc-a29d-4d49-a633-b1b1ae807064' \
+     --header 'Content-type: application/json' \
+     --data '{"files": [{"name": "main.py", "content": "print(42)"}]}' \
+     --url 'http://15.206.13.234:8091/languages/python/latest'
+	 
+	 curl --request PUT \
+     --header 'Authorization: Token password@123' \
+     --header 'Content-type: application/json' \
+     --data '{"name": "python", "version": "latest", "image": "glot/python:latest"}' \
+     --url 'http://15.206.13.234:8091/admin/languages'
+	 
+	 curl --request PUT \
+     --header 'Authorization: Token password@123' \
+     --header 'Content-type: application/json' \
+     --data '{"name": "bash", "version": "latest", "image": "glot/bash:latest"}' \
+     --url 'http://15.206.13.234:8091/admin/languages'
+	 
+	 {"id":"788c48bfe3e8a00994488b0ed3529d2d4d4c9a1a","image":"glot/bash:latest","name":"bash","url":"http://172.30.11.208:8091/admin/languages/788c48bfe3e8a00994488b0ed3529d2d4d4c9a1a","version":"latest"}
+	 
+	 curl --request PUT \
+     --header 'Authorization: Token password@123' \
+     --header 'Content-type: application/json' \
+     --data '{"name": "java", "version": "latest", "image": "glot/java:latest"}' \
+     --url 'http://15.206.13.234:8091/admin/languages'
+	 
+	 curl --request PUT \
+     --header 'Authorization: Token password@123' \
+     --header 'Content-type: application/json' \
+     --data '{"name": "c", "version": "latest", "image": "glot/c:latest"}' \
+     --url 'http://15.206.13.234:8091/admin/languages'
+	 
+	 curl --request PUT \
+     --header 'Authorization: Token password@123' \
+     --header 'Content-type: application/json' \
+     --data '{"name": "c++", "version": "latest", "image": "glot/c++:latest"}' \
+     --url 'http://15.206.13.234:8091/admin/languages'
+	 
+	 curl --request PUT \
+     --header 'Authorization: Token password@123' \
+     --header 'Content-type: application/json' \
+     --data '{"name": "c#", "version": "latest", "image": "glot/c#:latest"}' \
+     --url 'http://15.206.13.234:8091/admin/languages'
+	 
+	 curl --request PUT \
+     --header 'Authorization: Token password@123' \
+     --header 'Content-type: application/json' \
+     --data '{"name": "php", "version": "latest", "image": "glot/php:latest"}' \
+     --url 'http://15.206.13.234:8091/admin/languages'
+	 
+	 curl --request PUT \
+     --header 'Authorization: Token password@123' \
+     --header 'Content-type: application/json' \
+     --data '{"name": "javascript", "version": "latest", "image": "glot/javascript:latest"}' \
+     --url 'http://15.206.13.234:8091/admin/languages'
+	 
+	 curl --request GET \
+     --header 'Authorization: Token password@123' \
+	 --url 'http://15.206.13.234:8091/admin/users'
+	 
+	 
+	 d11088bc-a29d-4d49-a633-b1b1ae807064
+	 d11088bc-a29d-4d49-a633-b1b1ae807064
+	 d11088bc-a29d-4d49-a633-b1b1ae807064
+	 
+	 466db5e6-c934-48f7-9d88-1251b3605dee
+	 558161dd-3c6c-485e-9df4-4ade399520d5
+	 
+	 curl --request POST \
+     --header 'Authorization: Token d11088bc-a29d-4d49-a633-b1b1ae807064' \
+     --header 'Content-type: application/json' \
+     --data '{"files": [{"name": "main.py", "content": "print(42)"}]}' \
+     --url 'http://15.206.13.234:8091/languages/java/latest'
+	 
+	 
+	 
+	 d11088bc-a29d-4d49-a633-b1b1ae807064
+	 
+	 curl --request GET \
+     --header 'Authorization: Token password@123' \
+     --url 'http://15.206.13.234:8091/admin/users'
+
+	 
+	 curl -4 -sv -H "Authorization: Token d11088bc-a29d-4d49-a633-b1b1ae807064" -H 'Content-type: application/json' -X POST -d '{"files": [{"name": "main.sh", "content": "echo \"hello\"\n"}]}' http://15.206.13.234:8091/languages/bash/latest
+	 
+	 curl -4 -sv -H "Authorization: Token d11088bc-a29d-4d49-a633-b1b1ae807064" -H 'Content-type: application/json' -X POST -d '{"files": [{"name": "main.py", "content": "echo \"hello\"\n"}]}' localhost:8091/languages/python/latest
+	 
+	 
+	 issue resolved for glot-run (running glot containers)
+	 https://github.com/prasmussen/glot-run/issues/18
+	 
+	 for go command issue (building go project)
+	 https://askubuntu.com/questions/1092589/command-go-not-found
+	 
