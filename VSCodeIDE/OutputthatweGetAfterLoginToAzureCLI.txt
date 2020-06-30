@@ -1,0 +1,47 @@
+# this output we get once we connect azure cli with instance (after login from command prompt)
+[
+  {
+    "cloudName": "AzureCloud",
+    "homeTenantId": "f05cf28c-208e-4f41-bb7d-64141a37a2f9",
+    "id": "b2f1ea5f-f802-4c2a-9604-a0aa9c0305ab",
+    "isDefault": true,
+    "managedByTenants": [],
+    "name": "Free Trial",
+    "state": "Enabled",
+    "tenantId": "f05cf28c-208e-4f41-bb7d-64141a37a2f9",
+    "user": {
+      "name": "naren.kallakuri@pratian.com",
+      "type": "user"
+    }
+  },
+  {
+    "cloudName": "AzureCloud",
+    "homeTenantId": "f05cf28c-208e-4f41-bb7d-64141a37a2f9",
+    "id": "656a9efc-48f5-4ba7-a117-6666e3464dbb",
+    "isDefault": false,
+    "managedByTenants": [],
+    "name": "KK-Pay-As-You-Go",
+    "state": "Enabled",
+    "tenantId": "f05cf28c-208e-4f41-bb7d-64141a37a2f9",
+    "user": {
+      "name": "naren.kallakuri@pratian.com",
+      "type": "user"
+    }
+  }
+]
+
+
+#service principel creation (password Based)
+vikashkumar@vikashkumar-VirtualBox:~$ az ad sp create-for-rbac --name ServicePrincipalSkillAssure
+Changing "ServicePrincipalSkillAssure" to a valid URI of "http://ServicePrincipalSkillAssure", which is the required format used for service principal names
+Creating a role assignment under the scope of "/subscriptions/b2f1ea5f-f802-4c2a-9604-a0aa9c0305ab"
+  Retrying role assignment creation: 1/36
+  Retrying role assignment creation: 2/36
+{
+  "appId": "cdebca3a-491a-444b-b015-0b19bec45521",
+  "displayName": "ServicePrincipalSkillAssure",
+  "name": "http://ServicePrincipalSkillAssure",
+  "password": "1hS2KZNV1E9wlHTZm.5MJgcmyPgupN5w_a",
+  "tenant": "f05cf28c-208e-4f41-bb7d-64141a37a2f9"
+}
+vikashkumar@vikashkumar-VirtualBox:~$

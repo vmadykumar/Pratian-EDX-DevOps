@@ -1,0 +1,70 @@
+##Manual Pocess to install azure-cli
+
+step 1- Get packages needed for the install process:
+>   sudo apt-get update
+>   sudo apt-get install ca-certificates curl apt-transport-https lsb-release gnupg
+Note: there will be one configuration that will be asked to be done (for installing "GRUB install" which needs to be installed on boot drive so for finding out the boot drive on the server we will use "lsblk" command and Look for devices labeled "disk" (e.g. "sda", meaning /dev/sda) to install grub into the master boot record (every physical disk device has only one MBR, no matter the partitions). And once be found that we have to select that devie for selecting use "spacebar" up and down key won't select the device then press enter once selected the device )
+details of error find here : https://askubuntu.com/questions/23418/what-do-i-select-for-grub-install-devices-after-an-update
+or https://askubuntu.com/questions/91642/how-to-select-grub-install-device/91643
+
+step 2- Download and install the Microsoft signing key:
+>   curl -sL https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/microsoft.asc.gpg > /dev/null
+
+Step 3- Add the Azure CLI software repository:
+> 	AZ_REPO=$(lsb_release -cs)
+	echo "deb [arch=amd64] https://packages.microsoft.com/repos/azure-cli/ $AZ_REPO main" |
+	sudo tee /etc/apt/sources.list.d/azure-cli.list
+  
+Step 4- Update repository information and install the azure-cli package:
+>  sudo apt-get update
+>  sudo apt-get install azure-cli
+
+Step 5- Run the Azure CLI with the az command. To sign in, use the az login command. 
+1. Run the login command
+> az login
+
+2. But we need to login with command line . Now for that  Provide your Azure user credentials on the command line.
+> az login -u <username> -p <password> 
+Note : This approach doesn't work with Microsoft accounts or accounts that have two-factor authentication enabled.
+ALso , If you want to avoid displaying your password on console and are using az login interactively, use the read -s command under bash.
+> read -sp "Azure password: " AZ_PASS && echo && az login -u <username> -p $AZ_PASS
+Under PowerShell, use the Get-Credential cmdlet.
+> $AzCred = Get-Credential -UserName <username>
+az login -u $AzCred.UserName -p $AzCred.GetNetworkCredential().Password
+
+3. But we will not use any of the above two ways we will use "Sign in with a service principal". For that we need to create service principle 
+So below steps to Create an Azure service principal with the Azure CLI
+step 1- Create a service principal with the az ad sp create-for-rbac command. When creating a service principal, you choose the type of sign-in authentication it uses.
+Note : If your account doesn't have permission to create a service principal, az ad sp create-for-rbac will return an error message containing "Insufficient privileges to complete the operation." Contact your Azure Active Directory admin to create a service principal.
+There are two types of authentication available for service principals: Password-based authentication, and certificate-based authentication.
+i. Password-based authentication
+ii. Certificate-based authentication
+refer to doc for details : https://docs.microsoft.com/en-us/cli/azure/create-an-azure-service-principal-azure-cli?view=azure-cli-latest#password-based-authentication
+we here will follow "Password-based authentication"
+Without any authentication parameters, password-based authentication is used with a random password created for you.
+> az ad sp create-for-rbac --name ServicePrincipalName
+The output for a service principal with password authentication includes the password key. Make sure you copy this value - it can't be retrieved. If you forget the password, reset the service principal credentials.
+The appId and tenant keys appear in the output of az ad sp create-for-rbac and are used in service principal authentication. Record their values, but they can be retrieved at any point with az ad sp list.
+
+Step 2 - Manage service principal roles
+The Azure CLI has the following commands to manage role assignments:
+
+az role assignment list
+az role assignment create
+az role assignment delete
+The default role for a service principal is Contributor. This role has full permissions to read and write to an Azure account. The Reader role is more restrictive, with read-only access. For more information on Role-Based Access Control (RBAC) and roles, see RBAC: Built-in roles.
+This example adds the Reader role and removes the Contributor one:
+> az role assignment create --assignee APP_ID --role Reader
+> az role assignment delete --assignee APP_ID --role Contributor
+
+Note :If your account doesn't have permission to assign a role, you see an error message that your account "does not have authorization to perform action 'Microsoft.Authorization/roleAssignments/write'." Contact your Azure Active Directory admin to manage roles.
+
+Adding a role doesn't restrict previously assigned permissions. When restricting a service principal's permissions, the Contributor role should be removed.
+The changes can be verified by listing the assigned roles:
+> az role assignment list --assignee APP_ID
+
+Step 3- Sign in using a service principal
+Test the new service principal's credentials and permissions by signing in. To sign in with a service principal, you need the appId, tenant, and credentials.
+To sign in with a service principal using a password:
+> az login --service-principal --username APP_ID --password PASSWORD --tenant TENANT_ID
+
