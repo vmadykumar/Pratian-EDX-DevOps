@@ -1,23 +1,30 @@
-curl --request POST \
+     curl --request POST \
      --header 'Content-type: application/json' \
      --data '{"language": "python", "title": "test", "public": true, "files": [{"name": "main.py", "content": "print(42)"}]}' \
      --url 'http://15.206.13.234:8090/snippets'
+
+    # Below are the command to check the language code weather it's running in container and giving back the output or not 
+
+	 curl --request POST \
+     --header 'Authorization: Token d11088bc-a29d-4d49-a633-b1b1ae807064' \
+     --header 'Content-type: application/json' \
+     --data '{"files": [{"name": "main.py", "content": "print(42)"}]}' \
+     --url 'http://15.206.13.234:8091/languages/python/latest'	 
 	 
-	 
-	 
+   # Below command is for creation fo the user 
+ 
 	 curl --request POST \
      --header 'Authorization: Token password@123' \
      --header 'Content-type: application/json' \
      --data '{"token": "d11088bc-a29d-4d49-a633-b1b1ae807064"}' \
      --url 'http://15.206.13.234:8091/admin/users'
+
+    # below is the token which needs to be passed while checking the output for code  	 
+
+	 d11088bc-a29d-4d49-a633-b1b1ae807064
 	 
-	 {"created":"2020-06-18T03:50:49Z","id":"dfa6b00e-f9f6-4186-aff0-1f88e84a5fd7","modified":"2020-06-18T03:50:49Z","token":"d11088bc-a29d-4d49-a633-b1b1ae807064","url":"http://172.30.11.208:8091/admin/users/dfa6b00e-f9f6-4186-aff0-1f88e84a5fd7"}
-	 
-	 curl --request POST \
-     --header 'Authorization: Token d11088bc-a29d-4d49-a633-b1b1ae807064' \
-     --header 'Content-type: application/json' \
-     --data '{"files": [{"name": "main.py", "content": "print(42)"}]}' \
-     --url 'http://15.206.13.234:8091/languages/python/latest'
+	
+    # Below are the commands to create languages  
 	 
 	 curl --request PUT \
      --header 'Authorization: Token password@123' \
@@ -42,19 +49,19 @@ curl --request POST \
 	 curl --request PUT \
      --header 'Authorization: Token password@123' \
      --header 'Content-type: application/json' \
-     --data '{"name": "c", "version": "latest", "image": "glot/c:latest"}' \
+     --data '{"name": "c", "version": "latest", "image": "glot/clang:latest"}' \
      --url 'http://15.206.13.234:8091/admin/languages'
 	 
 	 curl --request PUT \
      --header 'Authorization: Token password@123' \
      --header 'Content-type: application/json' \
-     --data '{"name": "c++", "version": "latest", "image": "glot/c++:latest"}' \
+     --data '{"name": "cpp", "version": "latest", "image": "glot/clang:latest"}' \
      --url 'http://15.206.13.234:8091/admin/languages'
 	 
 	 curl --request PUT \
      --header 'Authorization: Token password@123' \
      --header 'Content-type: application/json' \
-     --data '{"name": "c#", "version": "latest", "image": "glot/c#:latest"}' \
+     --data '{"name": "csharp", "version": "latest", "image": "glot/mono:latest"}' \
      --url 'http://15.206.13.234:8091/admin/languages'
 	 
 	 curl --request PUT \
@@ -68,19 +75,14 @@ curl --request POST \
      --header 'Content-type: application/json' \
      --data '{"name": "javascript", "version": "latest", "image": "glot/javascript:latest"}' \
      --url 'http://15.206.13.234:8091/admin/languages'
-	 
+	
+
+################################################################################### 
 	 curl --request GET \
      --header 'Authorization: Token password@123' \
 	 --url 'http://15.206.13.234:8091/admin/users'
 	 
-	 
-	 d11088bc-a29d-4d49-a633-b1b1ae807064
-	 d11088bc-a29d-4d49-a633-b1b1ae807064
-	 d11088bc-a29d-4d49-a633-b1b1ae807064
-	 
-	 466db5e6-c934-48f7-9d88-1251b3605dee
-	 558161dd-3c6c-485e-9df4-4ade399520d5
-	 
+ 	 
 	 curl --request POST \
      --header 'Authorization: Token d11088bc-a29d-4d49-a633-b1b1ae807064' \
      --header 'Content-type: application/json' \
@@ -88,8 +90,6 @@ curl --request POST \
      --url 'http://15.206.13.234:8091/languages/java/latest'
 	 
 	 
-	 
-	 d11088bc-a29d-4d49-a633-b1b1ae807064
 	 
 	 curl --request GET \
      --header 'Authorization: Token password@123' \
